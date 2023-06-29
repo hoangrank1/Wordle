@@ -16,11 +16,12 @@ const KeyBoard: React.FC = () => {
   ];
 
   const pos = useSelector((state:rootState) => state.board.pos);
+  const row = useSelector((state:rootState) => state.board.row);
   const board = useSelector((state:rootState) => state.board.board);
   const dispatch = useDispatch();
 
   const clickBack = () => {
-    if (pos <= 0) {
+    if (Math.floor((pos - 1) / 5) < row) {
       return;
     }
     const newBoard = [...board];
