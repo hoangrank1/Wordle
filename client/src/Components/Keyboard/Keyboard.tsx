@@ -6,7 +6,7 @@ import {
   useSelector,
   useDispatch,
 } from "react-redux";
-import { decPos, setBoard } from "../../redux/boardSlice";
+import { decPos, incRow, setBoard } from "../../redux/boardSlice";
 
 const KeyBoard: React.FC = () => {
   const rows: string[] = [
@@ -29,12 +29,23 @@ const KeyBoard: React.FC = () => {
     dispatch(decPos());
   }
 
+  const clickEnter = () => {
+    if (pos === 0 || pos % 5 !== 0) {
+      return;
+    }
+    dispatch(incRow());
+  }
+
   return (
     <div className="keyboard-container">
       {rows.map((row, idx) => {
         return (
           <div key={idx} className="row">
-            {idx === 2 && <span className="letter-row">Enter</span>}
+            {idx === 2 && 
+              <span className="letter-row" onClick={clickEnter}>
+                Enter
+              </span>
+            }
             {row.split(" ").map((letter, idx) => {
               return (
                 <div key={idx} className="letter-row">
