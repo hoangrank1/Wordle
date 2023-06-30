@@ -6,7 +6,12 @@ import {
   useSelector,
   useDispatch,
 } from "react-redux";
-import { decPos, incRow, setBoard } from "../../redux/boardSlice";
+import { 
+  decPos, 
+  incRow, 
+  setBoard 
+} from "../../redux/boardSlice";
+import wordList from "../../words.json";
 
 const KeyBoard: React.FC = () => {
   const rows: string[] = [
@@ -18,7 +23,11 @@ const KeyBoard: React.FC = () => {
   const pos = useSelector((state:rootState) => state.board.pos);
   const row = useSelector((state:rootState) => state.board.row);
   const board = useSelector((state:rootState) => state.board.board);
+  const correctWord = useSelector((state:rootState) => state.board.correctWord);
   const dispatch = useDispatch();
+
+  let allWords: string[] = wordList.words;
+  let currentWord: string = `${board[pos-5]}${board[pos-4]}${board[pos-3]}${board[pos-2]}${board[pos-1]}`.toLowerCase();
 
   const clickBack = () => {
     if (Math.floor((pos - 1) / 5) < row) {
@@ -31,10 +40,22 @@ const KeyBoard: React.FC = () => {
   }
 
   const clickEnter = () => {
-    if (pos === 0 || pos % 5 !== 0) {
-      return;
+    const check = allWords.includes(currentWord);
+    if (check === true) {
+      if (pos === 0 || pos % 5 !== 0) {
+        return;
+      }
+      if (currentWord.toUpperCase() === correctWord) {
+        alert("The word is: " + correctWord);
+      }
+      dispatch(incRow());
     }
-    dispatch(incRow());
+    else {
+      alert("Invalid words");
+    }
+    if (pos === 30 && check === true) {
+      alert("The word is: " + correctWord);
+    }
   }
 
   return (
