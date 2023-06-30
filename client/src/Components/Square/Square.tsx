@@ -47,7 +47,6 @@ const Square: React.FC<IProps> = (props) => {
   }
 
   useEffect(() => {
-    console.log(currentPos);
     if (correctWord[currentPos] === val) {
       setCorrect(true);
     } else if (!correct && val !== "" && correctWord.includes(val)) {
@@ -62,12 +61,15 @@ const Square: React.FC<IProps> = (props) => {
     }
   }, [val]);
 
+  const status: any = Math.floor(squareIdx / 5) < row 
+    && (correct ? "correct" : almost ? "almost" : wrong ? "wrong" : "");
+
   return (
     <motion.div 
       animate={val ? "filled" : "unfilled"} 
       variants={variants}
     >
-      <div className="square" key={squareIdx}>
+      <div className="square" id={status}>
         {val}
       </div>
     </motion.div>
